@@ -1,0 +1,25 @@
+language: generic
+os:
+  - linux
+dist: xenial
+services:
+  - docker
+
+before_install:
+  - docker build -t friendou/fibonacci-docker -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true friendou/fibonacci-docker npm test
+
+after_success:
+  - docker build -t friendou/fibonacci-client ./client
+  - docker build -t friendou/fibonacci-nginx ./nginx
+  - docker build -t friendou/fibonacci-server ./server
+  - docker build -t friendou/fibonacci-worker ./worker
+  # Login to docker 
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push images to Docket Hub
+  - docker push friendou/fibonacci-client
+  - docker push friendou/fibonacci-nginx
+  - docker push friendou/fibonacci-server
+  - docker push friendou/fibonacci-worker
