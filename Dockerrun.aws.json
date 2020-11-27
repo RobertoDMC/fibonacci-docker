@@ -5,19 +5,22 @@
       "name": "fibonacci-client",
       "image": "friendou/fibonacci-client",
       "hostname": "client",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "fibonacci-server",
       "image": "friendou/fibonacci-server",
       "hostname": "api",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "fibonacci-worker",
       "image": "friendou/fibonacci-worker",
       "hostname": "worker",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "fibonacci-nginx",
@@ -29,7 +32,8 @@
           "containerPort": 80
         }
       ],
-      "links": ["fibonacci-client", "fibonacci-api"]
+      "links": ["fibonacci-client", "fibonacci-api"],
+      "memory": 128
     }
   ]
 }
